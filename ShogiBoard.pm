@@ -163,17 +163,27 @@ sub _initialize {
 sub display_board {
 	my $self = shift;
 
+	my %h = (
+		'P' => '+FU', 'L' => '+KY', 'N' => '+KE', 'S' => '+GI',
+		'G' => '+KI', 'B' => '+KA', 'R' => '+HI', 'K' => '+OU',
+		'T' => '+TO', 'A' => '+NY', 'I' => '+NK', 'V' => '+NG',
+		'H' => '+UM', 'D' => '+RY',
+		'p' => '-FU', 'l' => '-KY', 'n' => '-KE', 's' => '-GI',
+		'g' => '-KI', 'b' => '-KA', 'r' => '-HI', 'k' => '-OU',
+		't' => '-TO', 'a' => '-NY', 'i' => '-NK', 'v' => '-NG',
+		'h' => '-UM', 'd' => '-RY',
+	);
+
 	# 盤面
-	for my $y (1..9) {
+	for my $y (1 .. 9) {
 		print "P$y";
-		for my $x (1..9) {
+		for my $x (1 .. 9) {
 			my $piece = $self->get_piece((10 - $x) . $y);
-			if (!$piece) {
+			if ($piece eq '_') {
 				#print ' ' . $piece;
 				print ' * ';
 			} else {
-				# TODO: convert to csa piece name
-				print " $piece ";
+				print $h{$piece};
 			}
 		}
 		# コピーしたとき行末のスペースが削られることがあるので
@@ -182,12 +192,12 @@ sub display_board {
 	}
 
 	# 持ち駒
-	# TODO: format komadai
 	print "P+";
-	print $self->{komadai}=~ m/[A-Z]/g;
+	map { print "00$h{$_}" if (/[A-Z]/) } split(//, $self->{komadai});
 	print "\n";
+
 	print "P-";
-	print $self->{komadai} =~ m/[a-z]/g;
+	map { print "00$h{$_}" if (/[a-z]/) } split(//, $self->{komadai});
 	print "\n";
 }
 
