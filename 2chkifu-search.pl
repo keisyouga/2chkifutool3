@@ -27,7 +27,7 @@ my $INFOFILENAME = '2chkifu.info';
 # main
 #----------------------------------------
 {
-	
+
 	if (@ARGV) {
 		$_ = $ARGV[0];
 		if (/^-move/) {
@@ -225,7 +225,7 @@ sub do_1ki2 {
 			$game->move_ki2($record[$i]);
 			my $data = $game->get_16bitmove;
 			print $fh_bin $data;
-		} 
+		}
 		if (@record) {
 			print $fh_info scalar @record;
 			print $fh_info "\t";

@@ -21,6 +21,6 @@ for my $str (<$fh>) {
 		print "continue..."; getc;
 		print "$r\n";
 		$game->move_ki2($r);
-		$game->display_board; 
+		$game->display_board;
 	}
 }

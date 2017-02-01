@@ -39,8 +39,8 @@ my %PIECE_TO_NUMBER = (
 	'i' => 25,
 	'v' => 26,
 	'h' => 27,
-	'd' => 28, 
-); 
+	'd' => 28,
+);
 my %NUMBER_TO_PIECE = (
 	1	=> 'P',
 	2	=> 'L',
@@ -72,7 +72,7 @@ my %NUMBER_TO_PIECE = (
 	28 	=> 'd',
 );
 
-my $BOARD_INITIAL = 
+my $BOARD_INITIAL =
 'lnsgkgsnl/' .
 '_r_____b_/' .
 'ppppppppp/' .
@@ -113,14 +113,14 @@ my %CANMOVES1 = (
 	'v' => [-9, 1, 11, -10, 10, -1],
 
 	'K' => [9, 10, 11, -1, 1, -11, -10, -9],
-	'k' => [9, 10, 11, -1, 1, -11, -10, -9], 
+	'k' => [9, 10, 11, -1, 1, -11, -10, -9],
 
 	# 直進する動きと重複しない分のみ
 	'H' => [-10, -1, 1, 10],
 	'h' => [-10, -1, 1, 10],
 	'D' => [-11, -9 ,9, 11],
 	'd' => [-11, -9 ,9, 11],
-	
+
 );
 # 直進する動き
 my %CANMOVES2 = (
@@ -161,7 +161,7 @@ sub _initialize {
 }
 
 sub display_board {
-	my $self = shift; 
+	my $self = shift;
 
 	# 盤面
 	for my $y (1..9) {
@@ -213,7 +213,7 @@ sub _opposite {
 
 # 実際に駒を動かす
 sub move {
-	my $self = shift; 
+	my $self = shift;
 	my ($mvref) = @_;
 
 #	print STDERR %$mvref, "\n";
@@ -224,7 +224,7 @@ sub move {
 
 	# drop
 	# cannot take/promote
-	if ($mvref->{drop}) { 
+	if ($mvref->{drop}) {
 		my $i = index($self->{komadai}, $piece);
 		if ($i < 0) {
 			die "move: dropping $piece";
@@ -270,7 +270,7 @@ sub get_piece {
 	my $y = $xy % 10;
 	my $i = (9 - $x) + ($y - 1) * 10;
 
-	my $piece = substr($self->{board}, $i, 1); 
+	my $piece = substr($self->{board}, $i, 1);
 
 	return $piece;
 }
@@ -327,7 +327,7 @@ sub move_16bit {
 		$moveinfo{from} = '00';
 	} else {
 		$moveinfo{piece} = $self->get_piece($moveinfo{from});
-	} 
+	}
 	#print "move_16bit: ", %moveinfo, "\n";
 
 	$self->move(\%moveinfo);
@@ -359,7 +359,7 @@ sub _ki2_find_from {
 
 	# 直進する動き
 	for my $d (@{$CANMOVES2{$piece}}) {
-		my $from = $to - $d; 
+		my $from = $to - $d;
 		while (_in_range($from) and $self->get_piece($from) eq '_') {
 			$from -= $d;
 		}
@@ -381,11 +381,11 @@ sub move_ki2 {
         $ki2str =~ tr/竜/龍/;
         $ki2str =~ tr/一二三四五六七八九〇１２３４５６７８９０/12345678901234567890/;
         if ($ki2str =~ /同/) {
-                if (!$self->{lastmove}->{to}) { 
+                if (!$self->{lastmove}->{to}) {
 			die '{lastmove}->{to} is undefined';
 		}
                 $ki2str =~ s/同/$self->{lastmove}->{to}/;
-	} 
+	}
 
         $ki2str =~ /([▲△])([123456789][123456789])(歩|香|桂|銀|金|角|飛|玉|と|成香|成桂|成銀|馬|龍)(左|右)?(上|引|寄|直|行)?(成|不成)?(打)?/ or die "not valid ki2 record: <$ki2str>";
 
@@ -418,7 +418,7 @@ sub move_ki2 {
 		 '成桂' => 'I',
 		 '成銀' => 'V',
 		 '馬'   => 'H',
-		 '龍'   => 'D', 
+		 '龍'   => 'D',
 		);
 
 		$piece = $h{$ki2str3};
@@ -442,15 +442,15 @@ sub move_ki2 {
                         die "wrong kifu? $ki2str";
                 }
                 return $self->move({ from => '00', to => $to, piece => $piece, promote => 0, drop => 1});
-        } 
+        }
         # 移動元候補が1つ
         elsif (@xylist == 1) {
                 # $to に動ける駒が1つしかないのに余計な情報がある
                 if ($ki2str4 || $ki2str5) {
                         # 見逃す
-                        # printf STDERR "wrong kifu?\n"; 
+                        # printf STDERR "wrong kifu?\n";
                 }
-        } 
+        }
         # 移動元候補が複数ある
         elsif (@xylist > 1) {
                 # 上引寄直でフィルタする
