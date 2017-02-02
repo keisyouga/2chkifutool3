@@ -104,6 +104,7 @@ my $INFOFILENAME = '2chkifu.info';
 		# unzip -c で `inflating: ファイル名' が出力されるのを想定している
 		if ($line =~ /inflating:(.*)$/) {
 			do_1ki2($buf);
+			%gameinfo = ();
 			$gameinfo{filename} = $1;
 			$buf = '';
 		}
@@ -111,6 +112,7 @@ my $INFOFILENAME = '2chkifu.info';
 		# unzip -p でも動くように
 		if (!$gameinfo{filename} and $line =~ /^開始日時：/) {
 			do_1ki2($buf);
+			%gameinfo = ();
 			$buf = '';
 		}
 		$buf = $buf . $line;
@@ -246,7 +248,6 @@ sub ki2_1game {
 
 	my $str = '';
 
-	%gameinfo = ();
 	$gameinfo{komaoti} = '平手';
 	for (split($/, $ki2data)) {
 		#print "<$_>\n";
