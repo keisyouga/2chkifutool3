@@ -73,13 +73,23 @@ my $INFOFILENAME = '2chkifu.info';
 #		print STDERR $BINFILENAME, $INFOFILENAME, "\n";
 		my $b16;
 		my $infoline = <$fh_info>;
+		( $gameinfo{tesuu}, $gameinfo{startingdate},
+			$gameinfo{sente}, $gameinfo{gote}, $gameinfo{kisen},
+			$gameinfo{komaoti}, $gameinfo{filename}) = split(/\t/, $infoline);
 		my $num_moves;
 		my $game = new ShogiBoard;
+		set_komaoti($game);
 
 		while (read($fh_bin, $b16, 2)) {
 			if ($b16 eq "\x00\x00") {
-				$game = new ShogiBoard;
 				$infoline = <$fh_info>;
+				last if !$infoline;
+
+				( $gameinfo{tesuu}, $gameinfo{startingdate},
+					$gameinfo{sente}, $gameinfo{gote}, $gameinfo{kisen},
+					$gameinfo{komaoti}, $gameinfo{filename}) = split(/\t/, $infoline);
+				$game = new ShogiBoard;
+				set_komaoti($game);
 				$num_moves = 0;
 				next;
 			}
@@ -89,7 +99,7 @@ my $INFOFILENAME = '2chkifu.info';
 
 			if (compare_board($game, @query)) {
 				print $num_moves . ":";
-				print $infoline;
+				display_info();
 			}
 
 		}
@@ -175,7 +185,7 @@ sub set_komaoti {
 		$game->set_piece(11, '_');
 	} else {
 		# TODO:
-		print STDERR "komaoti: ", $gameinfo{komaoti};
+		print STDERR "komaoti: ", $gameinfo{komaoti}, "\n";
 
 		return 0;
 	}
