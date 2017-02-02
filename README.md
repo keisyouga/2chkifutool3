@@ -14,25 +14,25 @@
 初手から指し手と引数が一致した棋譜を表示
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -move <指し手> [...]
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move <指し手> [...]
 ```
 
 - 相掛かり 
 
 ``` 
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -move ▲２六歩 △８四歩 ▲２五歩 △８五歩 ▲７八金 △３二金 ▲２四歩 △同歩 ▲同飛 △２三歩 ▲２八飛 △８六歩 ▲同歩 △同飛 ▲８七歩 △８二飛
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move ▲２六歩 △８四歩 ▲２五歩 △８五歩 ▲７八金 △３二金 ▲２四歩 △同歩 ▲同飛 △２三歩 ▲２八飛 △８六歩 ▲同歩 △同飛 ▲８七歩 △８二飛
 ```
 
 - 位置だけ
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -move 26 84 25 85 78 32 24 '' '' 23 28 86 '' '' 87 82
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move 26 84 25 85 78 32 24 '' '' 23 28 86 '' '' 87 82
 ```
 
 - 駒だけ
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -move 歩 歩 歩 歩 金 金 歩 歩 飛 歩 飛 歩 歩 飛 歩 飛 
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move 歩 歩 歩 歩 金 金 歩 歩 飛 歩 飛 歩 歩 飛 歩 飛 
 ```
 
 ## 同局面検索
@@ -40,43 +40,43 @@ unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -move 歩 歩 歩 歩 金 金 �
 引数と一致した盤面の棋譜を表示
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board <盤面> [...]
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board <盤面> [...]
 ```
 
 - 角換わり腰掛け銀先後同型
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board l_____knl/_r__g_g__/__n_p_sp_/p_ppspp_p/_p_____P_/P_PPSPP_P/_PS_P_N__/__G_G__R_/LNK_____L
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board l_____knl/_r__g_g__/__n_p_sp_/p_ppspp_p/_p_____P_/P_PPSPP_P/_PS_P_N__/__G_G__R_/LNK_____L
 ```
 
 - 相銀冠
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board '/.kg....../.s|gk./.......s' '/.S......./.KG|S./.......GK'
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board '/.kg....../.s|gk./.......s' '/.S......./.KG|S./.......GK'
 ```
 
 - 先手の玉と後手の玉が56と54にいる局面 
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board ^........./........./........./....[Kk]..../........./....[Kk]..../
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board ^........./........./........./....[Kk]..../........./....[Kk]..../
 ```
 
 - 成香が4枚ある局面
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board [Aa].*[Aa].*[Aa].*[Aa]
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board [Aa].*[Aa].*[Aa].*[Aa]
 ```
 
 - 5筋の駒柱検索
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl -board '^....([A-Za-z]..../....){8}[A-Za-z]'
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -board '^....([A-Za-z]..../....){8}[A-Za-z]'
 ```
 
 - 同じ駒が縦に4枚並ぶ
 
 ```
-unzip -c ~/2chkifu.zip | perl 2chkifu-search.pl '(?i)([A-Z]).{9}\1.{9}\1.{9}\1'
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl '(?i)([A-Z]).{9}\1.{9}\1.{9}\1'
 ```
 
 平手初期盤面
