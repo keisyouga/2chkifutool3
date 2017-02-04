@@ -30,7 +30,7 @@ my $INFOFILENAME = '2chkifu.info';
 
 	if (@ARGV) {
 		$_ = $ARGV[0];
-		if (/^-move/) {
+		if (/^-move$/) {
 			$mode = 'move';
 			shift @ARGV;
 			for (@ARGV) {
@@ -39,19 +39,28 @@ my $INFOFILENAME = '2chkifu.info';
 			}
 			@query = @ARGV;
 		}
-		elsif (/^-board/) {
+		elsif (/^-move2$/) {
+			$mode = 'move2';
+			shift @ARGV;
+			for (@ARGV) {
+				utf8::decode $_;
+				$_ = unify_number($_);
+			}
+			@query = @ARGV;
+		}
+		elsif (/^-board$/) {
 			$mode = 'board';
 			shift @ARGV;
 			@query = @ARGV;
 		}
-		elsif (/^-mkdb/) {
+		elsif (/^-mkdb$/) {
 			$mode = 'mkdb';
 			open($fh_bin, '>>', $BINFILENAME)
 				or die "cannot open >> $BINFILENAME, $!";
 			open($fh_info, '>> :utf8', $INFOFILENAME)
 				or die "cannot open >> $INFOFILENAME, $!";
 		}
-		elsif (/^-help/) {
+		elsif (/^-help$/) {
 			usage();
 			exit;
 		} else {
@@ -208,7 +217,6 @@ sub do_1ki2 {
 	if ($mode eq 'move') {
 		if (@record) {
 			my $i = compare_move(\@record, \@query);
-			# 一致した
 			if ($i > 0) {
 				display_info();
 				print "\t";
@@ -216,7 +224,20 @@ sub do_1ki2 {
 				print "\n";
 			}
 		}
-	} elsif ($mode eq 'board') {
+	}
+	elsif ($mode eq 'move2') {
+		if (@record) {
+			my $i = compare_move2(\@record, \@query);
+			if ($i > 0) {
+				print $i . ":" . scalar @record . "\t";
+				display_info();
+				print "\t";
+				print $record[$i];
+				print "\n";
+			}
+		}
+	}
+	elsif ($mode eq 'board') {
 		my $game = new ShogiBoard;
 		return if !set_komaoti($game);
 		for my $i (0 .. $#record) {
@@ -332,6 +353,19 @@ sub compare_move {
 	return $i;
 }
 
+sub compare_move2 {
+	my ($a, $b) = @_;
+	my @aa = @$a;
+	my $n = 0;
+	for (@aa) {
+		my $i = compare_move(\@aa, $b);
+		return $i + $n if $i;
+		$n++;
+		shift @aa;
+	}
+	return 0;
+}
+
 sub display_info {
 	my ($fh) = @_;
 	if (!$fh) {
@@ -351,5 +385,8 @@ sub display_info {
 }
 
 sub usage {
-	print "usage:\n  unzip -c 2chkifu.zip | perl $0 <query> ...\n";
+	print "usage:\n";
+	print "  unzip -c 2chkifu.zip | perl $0 [-board] <query> ...\n";
+	print "  unzip -c 2chkifu.zip | perl $0 -move <query> ...\n";
+	print "  unzip -c 2chkifu.zip | perl $0 -move2 <query> ...\n";
 }
