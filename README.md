@@ -35,6 +35,20 @@ unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move 26 84 25 85 78 32 24 '' '' 2
 unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move 歩 歩 歩 歩 金 金 歩 歩 飛 歩 飛 歩 歩 飛 歩 飛 
 ```
 
+## 同手順検索2
+
+指し手と引数が一致した棋譜を表示
+
+```
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move2 <指し手> [...]
+```
+
+- 飛車を10回連続で動かす
+
+```
+unzip -c 2chkifu.zip | perl 2chkifu-search.pl -move2 [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍] '' [飛龍]
+```
+
 ## 同局面検索
 
 引数と一致した盤面の棋譜を表示
